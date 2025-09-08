@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <!-- ✅ Include header partial -->
+    <%- include("partials/header") %>
+
+    <div class="container">
+      <div class="profile-card">
+        <div class="login-status">
+          <i class="fa fa-check-circle"></i> You are logged in
+        </div>
+
+        <!-- Profile Info -->
+        <div class="profile-info">
+          <div class="avatar"><%= user.name[0] %></div>
+          <div class="details">
+            <h2><%= user.name %></h2>
+            <p><i class="fa fa-envelope"></i> <%= user.email %></p>
+            <p><i class="fa fa-calendar"></i> Member since: <%= user.date %></p>
+          </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats">
+          <div>
+            <h3><%= user.totalLinks || 0 %></h3>
+            <p>Links Created</p>
+          </div>
+          <div>
+            <h3><%= 0 %></h3>
+            <p>Total Clicks</p>
+          </div>
+          <div>
+            <h3>Today</h3>
+            <p>Last Active</p>
+          </div>
+        </div>
+
+        <!-- Email Verification -->
+        <div class="verification">
+          <div class="verification_status">
+            <span>Email Verification:</span>
+            <% if (user.isValid) { %>
+            <span class="verified">
+              <i class="fa-regular fa-circle-check"></i> Verified</span
+            >
+          </div>
+
+          <% } else { %>
+          <span class="not-verified"
+            ><i class="fa-regular fa-circle-xmark"></i> Not Verified</span
+          >
+          <a href="/auth/verify-email">
+            <button class="btn verify-btn">
+              <i class="fa-solid fa-lock"></i> Verify Now
+            </button>
+          </a>
+          <% } %>
+        </div>
+        <!-- Actions -->
+        <div class="actions">
+          <button class="btn edit">
+            <i class="fa fa-edit"></i> Edit Profile
+          </button>
+          <button class="btn password">
+            <i class="fa fa-key"></i> Change Password
+          </button>
+          <a href="/auth/logout">
+            <button class="btn logout">
+              <i class="fa fa-power-off"></i> Logout
+            </button>
+          </a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

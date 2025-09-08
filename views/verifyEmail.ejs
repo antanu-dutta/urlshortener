@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <%- include("partials/header") %>
+    <div class="container">
+      <div class="verify_email_container">
+        <div class="login-status">
+          <i class="fa fa-check-circle"></i> You are logged in
+        </div>
+        <div class="verification_link">
+          <p><span>Email: </span><%= email %></p>
+          <span
+            >Your email has not been sent yet, please verify your email by
+            entering the 8-digit code or request a new verification link</span
+          >
+          <form action="/auth/send-verification-mail" method="post">
+            <button type="submit" class="btn verification_btn">
+              Send Verification Link
+            </button>
+          </form>
+          <% if (success && success.length > 0) { %> <%
+          success.forEach(function(msg) { %>
+          <p class="flash-success"><%= msg %></p>
+          <% }) %> <% } %> <% if (errors && errors.length > 0) { %> <%
+          errors.forEach(function(error) { %>
+          <p class="flash-error"><%= error %></p>
+          <% }) %> <% } %>
+        </div>
+        <div class="verification_code_container">
+          <form action="/auth/verify-email" class="form-group" method="post">
+            <input
+              type="text"
+              placeholder="Enter 8-digit Verification Code"
+              name="token"
+            />
+            <button type="submit" class="btn submit_btn">Verify Code</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

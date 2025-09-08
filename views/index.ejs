@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <!-- ✅ Include header partial -->
+    <%- include("partials/header") %>
+
+    <div class="container">
+      <div class="links_form_container">
+        <!-- Left: Form -->
+        <div class="form-section">
+          <% if (user) { %>
+          <p class="loggedIn">
+            <i class="fa-regular fa-circle-check"></i> Yor are logged in
+          </p>
+          <% } else {%>
+          <p class="not_loggedIn">
+            <i class="fa-solid fa-circle-xmark"></i> You are not LoggedIn
+          </p>
+          <% } %>
+          <h2>URL Shortener</h2>
+          <form action="/shorten" class="shortner-form" method="post">
+            <div class="form-group">
+              <label for="url"
+                ><i class="fa-solid fa-link"></i> Enter URL</label
+              >
+              <input
+                type="text"
+                id="url"
+                name="url"
+                placeholder="https://example.com"
+              />
+            </div>
+            <div class="form-group">
+              <label for="code"
+                ><i class="fa-solid fa-code"></i> Custom Code (Optional)</label
+              >
+              <input
+                type="text"
+                id="code"
+                name="shortCode"
+                placeholder="mycustom123"
+              />
+            </div>
+            <% if (errors && errors.length > 0) { %> <%
+            errors.forEach(function(error) { %>
+            <p class="flash-error"><%= error %></p>
+            <% }) %> <% } %>
+            <button class="btn">Shorten</button>
+          </form>
+        </div>
+
+        <!-- Right: URL List -->
+        <div class="url-list">
+          <h3>Shortened Links</h3>
+          <ul>
+            <% if (links && links.length > 0) { %> <% links.forEach(link => { %>
+            <li>
+              <div class="url-info">
+                <a
+                  href="<%= protocol %>://<%= host %>/<%= link.shortCode %>"
+                  target="_blank"
+                >
+                  <%= host %>/<%= link.shortCode %>
+                </a>
+                <p class="original-url"><%= link.url %></p>
+              </div>
+              <div class="actions">
+                <a href="/edit/<%= link.id %>">
+                  <button class="icon-btn edit">
+                    <i class="fa-solid fa-file-pen"></i></button
+                ></a>
+                <form action="/delete/<%=link.id%>" method="post">
+                  <button class="icon-btn delete">
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                </form>
+              </div>
+            </li>
+            <% }) %> <% } else { %>
+            <p class="no-links">
+              🚀 No short links created yet. Start by adding one!
+            </p>
+            <% } %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
